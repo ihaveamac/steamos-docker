@@ -7,7 +7,7 @@ define rootfs
 	find /usr/share/libalpm/hooks -exec ln -sf /dev/null $(BUILDDIR)/alpm-hooks{} \;
 
 	mkdir -vp $(BUILDDIR)/var/lib/pacman/ $(OUTPUTDIR)
-	install -Dm644 /usr/share/devtools/pacman-extra.conf $(BUILDDIR)/etc/pacman.conf
+	install -Dm644 pacman-steamos.conf $(BUILDDIR)/etc/pacman.conf
 	cat pacman-conf.d-noextract.conf >> $(BUILDDIR)/etc/pacman.conf
 
 	fakechroot -- fakeroot -- pacman -Sy -r $(BUILDDIR) \
@@ -63,8 +63,8 @@ $(OUTPUTDIR)/Dockerfile.base-devel: $(OUTPUTDIR)/base-devel.tar.zst
 
 .PHONY: docker-image-base
 image-base: $(OUTPUTDIR)/Dockerfile.base
-	${DOCKER} build -f $(OUTPUTDIR)/Dockerfile.base -t archlinux/archlinux:base $(OUTPUTDIR)
+	${DOCKER} build -f $(OUTPUTDIR)/Dockerfile.base -t ianburgwin/steamos:latest -t ianburgwin/steamos:base -t ianburgwin/steamos:3.4 $(OUTPUTDIR)
 
 .PHONY: docker-image-base-devel
 image-base-devel: $(OUTPUTDIR)/Dockerfile.base-devel
-	${DOCKER} build -f $(OUTPUTDIR)/Dockerfile.base-devel -t archlinux/archlinux:base-devel $(OUTPUTDIR)
+	${DOCKER} build -f $(OUTPUTDIR)/Dockerfile.base-devel -t ianburgwin/steamos:base-devel -t ianburgwin/steamos:3.4-base-devel $(OUTPUTDIR)
