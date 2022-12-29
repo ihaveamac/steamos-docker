@@ -55,16 +55,26 @@ $(OUTPUTDIR)/base.tar.zst:
 $(OUTPUTDIR)/base-devel.tar.zst:
 	$(call rootfs,base-devel,base base-devel)
 
+$(OUTPUTDIR)/buildpack.tar.zst:
+	$(call rootfs,buildpack,base base-devel cmake linux-neptune linux-neptune-headers python python-pip wget unzip git)
+
 $(OUTPUTDIR)/Dockerfile.base: $(OUTPUTDIR)/base.tar.zst
 	$(call dockerfile,base)
 
 $(OUTPUTDIR)/Dockerfile.base-devel: $(OUTPUTDIR)/base-devel.tar.zst
 	$(call dockerfile,base-devel)
 
+$(OUTPUTDIR)/Dockerfile.buildpack: $(OUTPUTDIR)/buildpack.tar.zst
+	$(call dockerfile,buildpack)
+
 .PHONY: docker-image-base
 image-base: $(OUTPUTDIR)/Dockerfile.base
-	${DOCKER} build -f $(OUTPUTDIR)/Dockerfile.base -t ianburgwin/steamos:latest -t ianburgwin/steamos:base -t ianburgwin/steamos:3.4 $(OUTPUTDIR)
+	${DOCKER} build -f $(OUTPUTDIR)/Dockerfile.base -t ianburgwin/steamos:latest -t ianburgwin/steamos:base -t ianburgwin/steamos:3.4 -t ianburgwin/steamos:3.4-base $(OUTPUTDIR)
 
 .PHONY: docker-image-base-devel
 image-base-devel: $(OUTPUTDIR)/Dockerfile.base-devel
 	${DOCKER} build -f $(OUTPUTDIR)/Dockerfile.base-devel -t ianburgwin/steamos:base-devel -t ianburgwin/steamos:3.4-base-devel $(OUTPUTDIR)
+
+.PHONY: docker-image-buildpack
+image-buildpack: $(OUTPUTDIR)/Dockerfile.buildpack
+	${DOCKER} build -f $(OUTPUTDIR)/Dockerfile.buildpack -t ianburgwin/steamos:buildpack -t ianburgwin/steamos:3.4-buildpack $(OUTPUTDIR)

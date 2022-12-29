@@ -4,5 +4,7 @@ This is a fork of the [Arch Linux Docker Image](https://gitlab.archlinux.org/arc
 
 The main change (so far) is that `pacman.conf` was taken from a Steam Deck running SteamOS 3.4 and edited to include the mirror path (instead of depending on `/etc/pacman.d/mirrorlist`).
 
+There is also an extra tag, `buildpack`, which includes various more packages that (I think) might be commonly used to build software for SteamOS.
+
 * Docker Hub repo: https://hub.docker.com/r/ianburgwin/steamos
 * GitHub repo: https://github.com/ihaveamac/steamos-docker
