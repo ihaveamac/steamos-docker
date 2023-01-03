@@ -45,6 +45,12 @@ define dockerfile
 	    Dockerfile.template > $(OUTPUTDIR)/Dockerfile.$(1)
 endef
 
+define dockerfile-extra
+	sed -e "s|TEMPLATE_BASE_TAG|$(2)|" \
+	    -e "s|TEMPLATE_PACKAGES|$(3)|" \
+	    Dockerfile.extra.template > $(OUTPUTDIR)/Dockerfile.$(1)
+endef
+
 .PHONY: clean
 clean:
 	rm -rf $(BUILDDIR) $(OUTPUTDIR)
@@ -52,29 +58,32 @@ clean:
 $(OUTPUTDIR)/base.tar.zst:
 	$(call rootfs,base,base)
 
-$(OUTPUTDIR)/base-devel.tar.zst:
-	$(call rootfs,base-devel,base base-devel)
-
-$(OUTPUTDIR)/buildpack.tar.zst:
-	$(call rootfs,buildpack,base base-devel cmake linux-neptune linux-neptune-headers python python-pip wget unzip git)
-
 $(OUTPUTDIR)/Dockerfile.base: $(OUTPUTDIR)/base.tar.zst
 	$(call dockerfile,base)
 
-$(OUTPUTDIR)/Dockerfile.base-devel: $(OUTPUTDIR)/base-devel.tar.zst
-	$(call dockerfile,base-devel)
+$(OUTPUTDIR)/Dockerfile.base-devel: $(OUTPUTDIR)/Dockerfile.base
+	$(call dockerfile-extra,base-devel,base,base-devel)
 
-$(OUTPUTDIR)/Dockerfile.buildpack: $(OUTPUTDIR)/buildpack.tar.zst
-	$(call dockerfile,buildpack)
+$(OUTPUTDIR)/Dockerfile.buildpack: $(OUTPUTDIR)/Dockerfile.base-devel
+	$(call dockerfile-extra,buildpack,base-devel,cmake linux-neptune linux-neptune-headers python python-pip wget unzip git)
+
+$(OUTPUTDIR)/Dockerfile.buildpack-extra: $(OUTPUTDIR)/Dockerfile.buildpack
+	$(call dockerfile-extra,buildpack-extra,buildpack,qt5-base)
 
 .PHONY: docker-image-base
 image-base: $(OUTPUTDIR)/Dockerfile.base
 	${DOCKER} build -f $(OUTPUTDIR)/Dockerfile.base -t ianburgwin/steamos:latest -t ianburgwin/steamos:base -t ianburgwin/steamos:3.4 -t ianburgwin/steamos:3.4-base $(OUTPUTDIR)
 
+# these are changed to not send the build context, which will probably be big due to the rootfs for the base image
+# i don't really know makefiles that well
 .PHONY: docker-image-base-devel
-image-base-devel: $(OUTPUTDIR)/Dockerfile.base-devel
-	${DOCKER} build -f $(OUTPUTDIR)/Dockerfile.base-devel -t ianburgwin/steamos:base-devel -t ianburgwin/steamos:3.4-base-devel $(OUTPUTDIR)
+image-base-devel: image-base $(OUTPUTDIR)/Dockerfile.base-devel
+	${DOCKER} build -t ianburgwin/steamos:base-devel -t ianburgwin/steamos:3.4-base-devel - < $(OUTPUTDIR)/Dockerfile.base-devel
 
 .PHONY: docker-image-buildpack
-image-buildpack: $(OUTPUTDIR)/Dockerfile.buildpack
-	${DOCKER} build -f $(OUTPUTDIR)/Dockerfile.buildpack -t ianburgwin/steamos:buildpack -t ianburgwin/steamos:3.4-buildpack $(OUTPUTDIR)
+image-buildpack: image-base-devel $(OUTPUTDIR)/Dockerfile.buildpack
+	${DOCKER} build -t ianburgwin/steamos:buildpack -t ianburgwin/steamos:3.4-buildpack - < $(OUTPUTDIR)/Dockerfile.buildpack
+
+.PHONY: docker-image-buildpack-extra
+image-buildpack-extra: image-buildpack $(OUTPUTDIR)/Dockerfile.buildpack-extra
+	${DOCKER} build -t ianburgwin/steamos:buildpack-extra -t ianburgwin/steamos:3.4-buildpack-extra - < $(OUTPUTDIR)/Dockerfile.buildpack-extra
