@@ -1,0 +1,8 @@
+FROM ianburgwin/steamos:3.4-buildpack
+
+RUN set -eux; \
+	pacman -Syu --needed --noconfirm mingw-w64-gcc alsa-lib libpulse dbus fontconfig freetype2 gnutls mesa libunwind libx11 libxcomposite libxcursor libxfixes libxi libxrandr libxrender libxext gstreamer gst-plugins-base-libs sdl2 systemd vulkan-icd-loader vulkan-headers; \
+	rm /var/cache/pacman/pkg/*; \
+	rm /var/lib/pacman/sync/*
+
+CMD ["/usr/bin/bash"]

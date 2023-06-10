@@ -10,5 +10,11 @@ This repo has the following tags:
 * `buildpack`, `3.4-buildpack`: Based on `base-devel`, this includes these packages: `cmake linux-neptune linux-neptune-headers python python-pip wget unzip git sdl2`
 * `buildpack-extra`, `3.4-buildpack-extra`: Based on `buildpack`, this includes these packages: `qt5-tools`
 
+## Extras
+
+More stuff in the `extras/` subdir.
+
+* `Docker-winebuilder` - Based on `3.4-buildpack`, it installs a bunch of extra packages that I used to build Wine.
+
 * Docker Hub repo: https://hub.docker.com/r/ianburgwin/steamos
 * GitHub repo: https://github.com/ihaveamac/steamos-docker
