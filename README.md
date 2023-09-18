@@ -5,6 +5,8 @@
 
 This is a fork of the [Arch Linux Docker Image](https://gitlab.archlinux.org/archlinux/archlinux-docker) repo with alterations to build an image using the SteamOS repository.
 
+Building this has only been tested on a Steam Deck. It might also work on standard Arch Linux. It wouldn't work on other distros that lack pacman.
+
 This adds an extra user, "deck", which SteamOS always includes for Steam Deck users.
 
 This repo has the following tags:
