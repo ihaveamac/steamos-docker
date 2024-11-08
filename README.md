@@ -15,11 +15,16 @@ This repo has the following tags:
 * `base-devel`, `3.4-base-devel`: Includes the `base-devel` group.
 * `buildpack`, `3.4-buildpack`: Based on `base-devel`, this includes these packages: `cmake linux-neptune linux-neptune-headers python python-pip wget unzip git sdl2`
 * `buildpack-extra`, `3.4-buildpack-extra`: Based on `buildpack`, this includes these packages: `qt5-tools`
-## 3.5 (preview)
+## 3.5
 * `base`, `3.5`, `3.5-base`, `latest`: SteamOS with only the `base` and `holo-base` groups.
 * `base-devel`, `3.5-base-devel`: Includes the `base-devel` group.
 * `buildpack`, `3.5-buildpack`: Based on `base-devel`, this includes these packages: `cmake linux-neptune linux-neptune-headers python python-pip wget unzip git sdl2`
 * `buildpack-extra`, `3.5-buildpack-extra`: Based on `buildpack`, this includes these packages: `qt5-tools`
+## 3.5
+* `base`, `3.6`, `3.6-base`, `latest`: SteamOS with only the `base` and `holo-base` groups.
+* `base-devel`, `3.6-base-devel`: Includes the `base-devel` group.
+* `buildpack`, `3.6-buildpack`: Based on `base-devel`, this includes these packages: `cmake linux-neptune linux-neptune-headers python python-pip wget unzip git sdl2`
+* `buildpack-extra`, `3.6-buildpack-extra`: Based on `buildpack`, this includes these packages: `qt5-tools`
 
 ## Extras
 

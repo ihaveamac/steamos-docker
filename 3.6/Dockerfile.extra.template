@@ -1,0 +1,8 @@
+FROM ianburgwin/steamos:TEMPLATE_BASE_TAG
+
+RUN set -eux; \
+	pacman -Syu --needed --noconfirm TEMPLATE_PACKAGES; \
+	rm /var/cache/pacman/pkg/*; \
+	rm /usr/lib/holo/pacmandb/sync/*
+
+CMD ["/usr/bin/bash"]
