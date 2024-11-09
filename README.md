@@ -15,7 +15,7 @@ This adds an extra user, "deck", which SteamOS always includes for Steam Deck us
 This repo has the following tags:
 * `base`, `3.6`, `3.6-base`, `latest`: SteamOS with only the `base` and `holo-base` groups.
 * `base-devel`, `3.6-base-devel`: Includes the `base-devel` group.
-* `buildpack`, `3.6-buildpack`: Based on `base-devel`, this includes these packages: `cmake linux-neptune linux-neptune-headers python python-pip wget unzip git sdl2`
+* `buildpack`, `3.6-buildpack`: Based on `base-devel`, this includes these packages: `cmake linux-neptune linux-neptune-headers python python-pip wget unzip git sdl2 ninjat `
 * `buildpack-extra`, `3.6-buildpack-extra`: Based on `buildpack`, this includes these packages: `qt5-tools`
 
 ## Extras

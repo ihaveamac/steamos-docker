@@ -65,7 +65,7 @@ $(OUTPUTDIR)/Dockerfile.base-devel: $(OUTPUTDIR)/Dockerfile.base
 	$(call dockerfile-extra,base-devel,base,base-devel)
 
 $(OUTPUTDIR)/Dockerfile.buildpack: $(OUTPUTDIR)/Dockerfile.base-devel
-	$(call dockerfile-extra,buildpack,base-devel,cmake linux-neptune linux-neptune-headers python python-pip wget unzip git sdl2)
+	$(call dockerfile-extra,buildpack,base-devel,cmake linux-neptune linux-neptune-headers python python-pip wget unzip git sdl2 ninja)
 
 $(OUTPUTDIR)/Dockerfile.buildpack-extra: $(OUTPUTDIR)/Dockerfile.buildpack
 	$(call dockerfile-extra,buildpack-extra,buildpack,qt5-tools)
